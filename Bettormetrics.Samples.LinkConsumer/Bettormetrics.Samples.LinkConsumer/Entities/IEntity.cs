@@ -8,5 +8,6 @@ namespace Bettormetrics.Samples.LinkConsumer.Entities
         public Guid CompetitionId { get; set; }
         bool IsDeleted { get; set; }
         DateTime UtcDeleted { get; set; }
+        string GetId();
     }
 }

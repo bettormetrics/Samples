@@ -19,5 +19,6 @@ namespace Bettormetrics.Samples.LinkConsumer.Entities
         public string Name { get; set; }
         public bool IsDeleted { get; set; }
         public DateTime UtcDeleted { get; set; }
+        public string GetId() => Id.ToString();
     }
 }

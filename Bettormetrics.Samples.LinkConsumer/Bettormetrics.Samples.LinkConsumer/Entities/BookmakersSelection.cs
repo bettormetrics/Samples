@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Bettormetrics.Samples.LinkConsumer.Entities
 {
-    public class BookmakersSelection : IEntity
+    public class BookmakersSelection : ILinkEntity
     {
         public int BookmakerId { get; set; }
         public Guid SelectionId { get; set; }
@@ -22,5 +22,6 @@ namespace Bettormetrics.Samples.LinkConsumer.Entities
         public List<string> AlternativeBookmakerIds { get; set; }
         public List<DateTime> UtcAlternativeBookmakerIdsUpdated { get; set; }
         public DateTime? UtcLinkUpdated { get; set; }
+        public string GetId() => $"{SelectionId}_{BookmakerId}";
     }
 }
