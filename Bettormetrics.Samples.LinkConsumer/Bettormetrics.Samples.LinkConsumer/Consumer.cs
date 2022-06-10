@@ -55,9 +55,7 @@ namespace Bettormetrics.Samples.LinkConsumer
 
             try
             {
-                var messageType = model.Update(arg.Data.EventBody.ToArray());
-                UpdateCount(messageType);
-                TryOutputStats();
+                ProcessEvent(arg);
             }
             catch (Exception e)
             {
@@ -69,6 +67,18 @@ namespace Bettormetrics.Samples.LinkConsumer
             }
 
             return Task.CompletedTask;
+        }
+
+        private void ProcessEvent(ProcessEventArgs arg)
+        {
+            var messageType = model.Update(arg.Data.EventBody.ToArray());
+
+            if (messageType != null)
+            {
+                UpdateCount(messageType);
+            }
+
+            TryOutputStats();
         }
 
         private void UpdateCount(string messageType)
