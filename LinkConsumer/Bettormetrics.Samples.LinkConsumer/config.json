@@ -1,7 +1,0 @@
-{
-  "blobConnectionString": "DefaultEndpointsProtocol=https;AccountName=obproto;AccountKey=60huAAbD1ani3nkyA4pfqnd9T23LkDBCI/HC6fNQSuvO07ooIJBsHv222wq7vnr7gKTw75w5xQUW85dVFLmorg==;EndpointSuffix=core.windows.net",
-  "blobContainerName": "linkconsumersample4",
-  "eventHubConnectionString": "Endpoint=sb://bmstage-ne-tenant-20-eh1.servicebus.windows.net/;SharedAccessKeyName=Listen;SharedAccessKey=2hDEmZCNg6o2yleVCEzHJf6dEADkA3q1l3gopY+sXdw=",
-  "eventHubConsumerGroup": "sample",
-  "eventHubName": "debuglinks"
-}

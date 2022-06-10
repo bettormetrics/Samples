@@ -348,4 +348,4 @@ MigrationBackup/
 
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
-/Bettormetrics.Samples.LinkConsumer/Bettormetrics.Samples.LinkConsumer/config.json
+/LinkConsumer/Bettormetrics.Samples.LinkConsumer/config.json
