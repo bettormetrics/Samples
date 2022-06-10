@@ -40,7 +40,7 @@ namespace Bettormetrics.Samples.LinkConsumer
                 nameof(BookmakersFixture) => Update(Deserialize<BookmakersFixture>(raw)),
                 nameof(BookmakersMarket) => Update(Deserialize<BookmakersMarket>(raw)),
                 nameof(BookmakersSelection) => Update(Deserialize<BookmakersSelection>(raw)),
-                _ => throw new NotImplementedException()
+                _ => throw new NotImplementedException(root.Type)
             };
 
             return root.Type;
