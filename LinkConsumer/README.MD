@@ -13,6 +13,10 @@ You'll need to create an Azure Storage account if you want to use the blob stora
 }
 ```
 
+## Kafka endpoint
+If you want to stream process this data in Flink, Spark, or a similar stream processing framework, then:
+_"Event Hubs provides an endpoint compatible with the Apache Kafka® producer and consumer APIs that can be used by most existing Apache Kafka client applications as an alternative to running your own Apache Kafka cluster."_ - [Microsoft Docs](https://docs.microsoft.com/en-us/azure/event-hubs/event-hubs-for-kafka-ecosystem-overview)
+
 ## Relational Entity Model
 ```mermaid
 graph TD;
