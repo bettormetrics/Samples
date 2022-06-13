@@ -106,25 +106,30 @@ namespace Bettormetrics.Samples.LinkConsumer
 
         private void OutputStats()
         {
+            var numCompetitions = 0;
             var numFixtures = 0;
             var numMarkets = 0;
             var numSelections = 0;
 
-            foreach (var f in model.Root.Children)
+            foreach (var c in model.Root.Children)
             {
-                numFixtures++;
-                foreach (var m in f.Value.Children)
+                numCompetitions++;
+                foreach (var f in c.Value.Children)
                 {
-                    numMarkets++;
-                    foreach (var s in m.Value.Children)
+                    numFixtures++;
+                    foreach (var m in f.Value.Children)
                     {
-                        numSelections++;
+                        numMarkets++;
+                        foreach (var s in m.Value.Children)
+                        {
+                            numSelections++;
+                        }
                     }
                 }
             }
 
             var messageCounts = messageTypeCounts.Select(x => $"{x.Key}: {x.Value}");
-            Console.WriteLine($"Stats Held: {numFixtures} fixtures, {numMarkets} markets, {numSelections} selections");
+            Console.WriteLine($"Stats Held: {numCompetitions} competitions, {numFixtures} fixtures, {numMarkets} markets, {numSelections} selections");
             Console.WriteLine($"Stats Messages: {string.Join(", ", messageCounts)}");
             Console.WriteLine();
         }

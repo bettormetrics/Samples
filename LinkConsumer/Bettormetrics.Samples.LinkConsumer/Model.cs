@@ -48,20 +48,25 @@ namespace Bettormetrics.Samples.LinkConsumer
 
         private bool Update(Message<Fixture> message)
         {
-            return Root.GetOrCreateChild(message.Entity.Id)
+            var competition = Root.GetOrCreateChild(message.Entity.CompetitionId);
+            competition.Update(new Message<Competition> { Entity = message.Entity.Competition, Type = nameof(Competition) });
+            return competition
+                .GetOrCreateChild(message.Entity.Id)
                 .Update(message);
         }
 
         private bool Update(Message<Market> message)
         {
-            return Root.GetOrCreateChild(message.Entity.FixtureId)
+            return Root.GetOrCreateChild(message.Entity.CompetitionId)
+                .GetOrCreateChild(message.Entity.FixtureId)
                 .GetOrCreateChild(message.Entity.Id)
                 .Update(message);
         }
 
         private bool Update(Message<Selection> message)
         {
-            return Root.GetOrCreateChild(message.Entity.FixtureId)
+            return Root.GetOrCreateChild(message.Entity.CompetitionId)
+                .GetOrCreateChild(message.Entity.FixtureId)
                 .GetOrCreateChild(message.Entity.MarketId)
                 .GetOrCreateChild(message.Entity.Id)
                 .Update(message);
@@ -69,20 +74,23 @@ namespace Bettormetrics.Samples.LinkConsumer
 
         private bool Update(Message<BookmakersFixture> message)
         {
-            return Root.GetOrCreateChild(message.Entity.FixtureId)
+            return Root.GetOrCreateChild(message.Entity.CompetitionId)
+                .GetOrCreateChild(message.Entity.FixtureId)
                 .UpdateLink(message);
         }
 
         private bool Update(Message<BookmakersMarket> message)
         {
-            return Root.GetOrCreateChild(message.Entity.FixtureId)
+            return Root.GetOrCreateChild(message.Entity.CompetitionId)
+                .GetOrCreateChild(message.Entity.FixtureId)
                 .GetOrCreateChild(message.Entity.MarketId)
                 .UpdateLink(message);
         }
 
         private bool Update(Message<BookmakersSelection> message)
         {
-            return Root.GetOrCreateChild(message.Entity.FixtureId)
+            return Root.GetOrCreateChild(message.Entity.CompetitionId)
+                .GetOrCreateChild(message.Entity.FixtureId)
                 .GetOrCreateChild(message.Entity.MarketId)
                 .GetOrCreateChild(message.Entity.SelectionId)
                 .UpdateLink(message);

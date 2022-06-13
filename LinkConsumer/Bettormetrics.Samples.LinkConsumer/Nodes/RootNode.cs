@@ -3,7 +3,7 @@ using System;
 
 namespace Bettormetrics.Samples.LinkConsumer.Nodes
 {
-    class RootNode : Node<Root, Root, Fixture, BookmakersFixture, FixtureNode>
+    class RootNode : NodeB<Root, Root, Competition, CompetitionNode>
     {
     }
 
