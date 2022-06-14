@@ -14,7 +14,7 @@ namespace Bettormetrics.Samples.LinkConsumer.Entities
         public Guid CompetitionId { get; set; }
         public bool IsOutright { get; set; }
         public bool IsDeleted { get; set; }
-        public DateTime UtcDeleted { get; set; }
+        public DateTime? UtcDeleted { get; set; }
         public string GetId() => Id.ToString();
     }
 }

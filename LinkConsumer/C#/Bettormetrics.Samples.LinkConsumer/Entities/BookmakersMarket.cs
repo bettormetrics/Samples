@@ -15,7 +15,7 @@ namespace Bettormetrics.Samples.LinkConsumer.Entities
         public int? MarketSubTypeId { get; set; }
         public string MarketOptions { get; set; }
         public bool IsDeleted { get; set; }
-        public DateTime UtcDeleted { get; set; }
+        public DateTime? UtcDeleted { get; set; }
         public bool IsOutright { get; set; }
         public List<string> AlternativeBookmakerIds { get; set; }
         public List<DateTime> UtcAlternativeBookmakerIdsUpdated { get; set; }
