@@ -34,7 +34,10 @@ namespace Bettormetrics.Samples.LinkConsumer
 
         public async Task StartAsync()
         {
+            Console.WriteLine("Creating checkpointer if required...");
             await checkpointClient.CreateIfNotExistsAsync();
+
+            Console.WriteLine("Attempting to start processing...");
             await processorClient.StartProcessingAsync();
         }
 
