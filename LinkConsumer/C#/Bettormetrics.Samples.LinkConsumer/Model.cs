@@ -19,18 +19,7 @@ namespace Bettormetrics.Samples.LinkConsumer
         {
             var raw = Encoding.UTF8.GetString(bytes);
 
-            var root = default(MessageRoot);
-
-            try
-            {
-                root = JsonConvert.DeserializeObject<MessageRoot>(raw);
-            }
-            catch (Exception)
-            {
-                var base64Decoded = Convert.FromBase64String(raw.Replace("\"", ""));
-                raw = Encoding.UTF8.GetString(base64Decoded);
-                root = JsonConvert.DeserializeObject<MessageRoot>(raw);
-            }
+            var root = JsonConvert.DeserializeObject<MessageRoot>(raw);
             
             var result = root.Type switch
             {
