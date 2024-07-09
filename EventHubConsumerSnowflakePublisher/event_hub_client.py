@@ -7,6 +7,10 @@ import datetime
 
 import snowflake.connector
 
+from azure.eventhub import EventHubConsumerClient
+from azure.eventhub.extensions.checkpointstoreblob import BlobCheckpointStore
+from azure.storage.blob import BlobServiceClient
+
 # Read configuration from a file
 config = configparser.ConfigParser()
 config.read('config.ini')
@@ -14,6 +18,10 @@ config.read('config.ini')
 connection_str = config.get('EventHub', 'EVENT_HUB_CONN_STR')
 eventhub_name = config.get('EventHub', 'EVENT_HUB_NAME')
 consumer_group = config.get('EventHub', 'EVENT_HUB_CONSUMER_GROUP')
+
+# Read Azure Storage configuration from config.ini
+storage_connection_str = config.get('AzureStorage', 'STORAGE_CONNECTION_STR')
+storage_container_name = config.get('AzureStorage', 'STORAGE_CONTAINER_NAME')
 
 # Enable this to define variables with the connection string, event hub name, and consumer group
 # connection_str = '<your_event_hub_connection_string>'
@@ -34,6 +42,12 @@ consumer_group = config.get('EventHub', 'EVENT_HUB_CONSUMER_GROUP')
 #     database='<database>',
 #     schema='<schema>'
 # )
+
+# Create a BlobServiceClient object which will be used to create a container client
+blob_service_client = BlobServiceClient.from_connection_string(storage_connection_str)
+
+# Create a BlobCheckpointStore using the BlobServiceClient and the container name
+checkpoint_store = BlobCheckpointStore.from_connection_string(storage_connection_str, storage_container_name)
 
 # Read Snowflake configuration from config.ini
 snowflake_user = config.get('Snowflake', 'SNOWFLAKE_USER')
@@ -56,7 +70,7 @@ conn = snowflake.connector.connect(
 )
 
 try:
-    client = EventHubConsumerClient.from_connection_string(connection_str, consumer_group, eventhub_name=eventhub_name)
+    client = EventHubConsumerClient.from_connection_string(connection_str, consumer_group, eventhub_name=eventhub_name, checkpoint_store=checkpoint_store)
 except Exception as e:
     logging.error("Failed to create EventHubConsumerClient: {}".format(str(e)))
     # Handle the error or raise it to be caught by higher-level code
@@ -82,11 +96,18 @@ def on_event(partition_context, event):
 
             # Decode bytes to string
             data_str = data_list[0].decode('utf-8')
+            # print("data_str:", data_str) # -> Getting a valid json up to this point
 
             # Convert the JSON object back to a string
             data_json = json.loads(data_str)
+            # print("data_json:", data_json)
 
             data_json_str = json.dumps(data_json)
+            # print("data_json_str:", data_json_str)
+
+            # query = f"INSERT INTO BM_EH_SINK (BM_EVENT_DATA) VALUES (PARSE_JSON('{data_json_str}'))"
+            # sink_tbl = 'BM_EH_SINK'
+            # event_data_col = 'BM_EVENT_DATA'
 
             query = f"INSERT INTO {sink_tbl} ({event_data_col}) SELECT PARSE_JSON(Column1) FROM VALUES ('{data_json_str}')"
 
