@@ -84,7 +84,8 @@ def on_event_batch(partition_context, events):
                 # Convert the JSON object back to a string
                 data_json = json.loads(data_str)
 
-                data_json_str = json.dumps(data_json)
+                # Convert the JSON object back to a string, replacing single quotes with two single quotes
+                data_json_str = json.dumps(data_json).replace("'", "''")
 
                 # Add the data for this event to the batch data
                 batch_data.append(f"('{data_json_str}')")

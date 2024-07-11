@@ -96,18 +96,12 @@ def on_event(partition_context, event):
 
             # Decode bytes to string
             data_str = data_list[0].decode('utf-8')
-            # print("data_str:", data_str) # -> Getting a valid json up to this point
 
             # Convert the JSON object back to a string
             data_json = json.loads(data_str)
-            # print("data_json:", data_json)
-
-            data_json_str = json.dumps(data_json)
-            # print("data_json_str:", data_json_str)
-
-            # query = f"INSERT INTO BM_EH_SINK (BM_EVENT_DATA) VALUES (PARSE_JSON('{data_json_str}'))"
-            # sink_tbl = 'BM_EH_SINK'
-            # event_data_col = 'BM_EVENT_DATA'
+            
+            # Convert the JSON object back to a string, replacing single quotes with two single quotes
+            data_json_str = json.dumps(data_json).replace("'", "''")
 
             query = f"INSERT INTO {sink_tbl} ({event_data_col}) SELECT PARSE_JSON(Column1) FROM VALUES ('{data_json_str}')"
 
